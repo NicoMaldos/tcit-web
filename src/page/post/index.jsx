@@ -1,35 +1,30 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { define } from "../../state/posts/postsSlice";
 import "./index.css";
+import Filter from "./components/filter";
+import Create from "./components/create";
 
 function Post() {
-  const isPending = false;
-  const posts = [{ id: 0, name: "hola", description: "chao" }];
+  const isLoading = useSelector((state) => state.posts.isLoading);
+  const posts = useSelector((state) => state.posts.value);
+  const filteredPosts = useSelector((state) => state.posts.filteredValue);
+  const dispatch = useDispatch();
 
-  const createPost = (event) => {
-    event.preventDefault();
-    //It can make a prettier validation method, it can show which field is the flied itself, but I use alert for simplicity
-    if (!event.target.name.value || !event.target.description.value) {
-      alert("Campo nombre y descripción requiridos");
-    } else {
-      // add post method
-    }
-  };
+  useEffect(() => {
+    //TODO: get method
+    dispatch(define([{ id: 0, name: "nombre1", description: "descripción1" }]));
+  }, []);
 
-  //The filter can be a component, but is a pretty small view, so I leave it heare, same with the create form
-  const filterPost = (event) => {
-    event.preventDefault();
+  const deletePost = (postId) => {
+    //TODO: delete method
+    dispatch(define(posts.filter((post) => post.id === postId)));
   };
 
   return (
     <div>
       Posts
-      <form onSubmit={filterPost}>
-        <input
-          name="name"
-          placeholder="Filtro de Nombre"
-          disabled={isPending}
-        />
-        <button>Buscar</button>
-      </form>
+      <Filter />
       <table>
         <thead>
           <tr>
@@ -39,36 +34,23 @@ function Post() {
           </tr>
         </thead>
         <tbody>
-          {posts.map((post) => (
+          {filteredPosts.map((post) => (
             <tr key={post.id}>
               <td>{post.name}</td>
               <td>{post.description}</td>
               <td>
-                <button>Eliminar</button>
+                <button
+                  onClick={() => deletePost(post.id)}
+                  disabled={isLoading}
+                >
+                  Eliminar
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <form onSubmit={createPost}>
-        <input
-          name="name"
-          placeholder="Nombre"
-          disabled={isPending}
-          validation={{
-            required: {
-              value: true,
-              message: "required",
-            },
-          }}
-        />
-        <input
-          name="description"
-          placeholder="Descripción"
-          disabled={isPending}
-        />
-        <button type="submit">Crear</button>
-      </form>
+      <Create />
     </div>
   );
 }
