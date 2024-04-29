@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { filter } from "../../../state/posts/postsSlice";
 
@@ -15,9 +16,13 @@ function Filter() {
     );
   };
 
+  useEffect(() => {
+    document.getElementById("filterName").value = "";
+  }, [posts]);
+
   return (
     <form onSubmit={filterPost}>
-      <input name="name" placeholder="Filtro de Nombre" />
+      <input name="name" placeholder="Filtro de nombre" id="filterName" />
       <button disabled={isLoading}>Buscar</button>
     </form>
   );

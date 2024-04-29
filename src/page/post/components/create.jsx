@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { define } from "../../../state/posts/postsSlice";
+import { create } from "../../../state/posts/postsSlice";
 
 function Create() {
   const isLoading = useSelector((state) => state.posts.isLoading);
@@ -11,15 +11,19 @@ function Create() {
     if (!event.target.name.value || !event.target.description.value) {
       alert("Campo nombre y descripción requiridos");
     } else {
-      // TODO: post method
       dispatch(
-        define([{ id: 0, name: "nombre1", description: "descripción1" }])
+        create({
+          name: event.target.name.value,
+          description: event.target.description.value,
+        })
       );
+      const form = document.getElementById("createForm");
+      form.reset();
     }
   };
 
   return (
-    <form onSubmit={createPost}>
+    <form onSubmit={createPost} id="createForm">
       <input name="name" placeholder="Nombre" />
       <input name="description" placeholder="Descripción" />
       <button type="submit" disabled={isLoading}>
