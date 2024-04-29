@@ -12,7 +12,7 @@ function Post() {
 
   useEffect(() => {
     dispatch(get());
-  }, []);
+  }, [dispatch]);
 
   const deletePost = (postId) => {
     dispatch(destroy(postId));

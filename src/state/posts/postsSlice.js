@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   value: [],
   filteredValue: [],
+  //use to block buttons when creating or deleting data
   isLoading: false,
 };
 
@@ -45,8 +46,11 @@ const postsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(destroy.fulfilled, (state, action) => {
-        state.value = action.payload;
-        state.filteredValue = action.payload;
+        const newPosts = state.value.filter(
+          (post) => post.id !== action.payload.id
+        );
+        state.value = newPosts;
+        state.filteredValue = newPosts;
         state.isLoading = false;
       })
       .addCase(destroy.rejected, (state) => {
