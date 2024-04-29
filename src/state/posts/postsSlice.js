@@ -16,6 +16,7 @@ const postsSlice = createSlice({
       state.filteredValue = action.payload;
     },
   },
+  //async reducers
   extraReducers: (builder) => {
     builder
       .addCase(create.pending, (state) => {
@@ -23,7 +24,7 @@ const postsSlice = createSlice({
       })
       .addCase(create.fulfilled, (state, action) => {
         state.value.push(action.payload);
-        state.filteredValue.push(action.payload);
+        state.filteredValue = state.value;
         state.isLoading = false;
       })
       .addCase(create.rejected, (state) => {

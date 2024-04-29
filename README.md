@@ -17,3 +17,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 Considerations:
 -I use redux toolkit because is the standar for redux with react.
+-The view is in src/page/post
+-Redux is in state folder
